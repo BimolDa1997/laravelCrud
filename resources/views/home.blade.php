@@ -9,11 +9,21 @@
     <div style="margin: auto; border:1px solid #000;">
         @auth
         <h1>You are logged in.</h1>
-        <form id='login-form' action="/logout" method='post'>
+        
+
+          <form id='post-form' action="/new_post" method='post'>
             @csrf
-            <button type='submit'>Logout</button>
-            
-          </form>
+          <input type="text" name="title" placeholder="Title" required>
+          <input type="text" name="body" placeholder="Body" required>
+          <button type='submit'>Create Post</button>
+        </form>
+
+        <form id='login-form' action="/logout" method='post'>
+          @csrf
+          <button type='submit'>Logout</button>
+          
+        </form>
+
         @else
 <form id='login-form' action="/login" method='post'>
     @csrf
