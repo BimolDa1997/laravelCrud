@@ -18,6 +18,17 @@
           <button type='submit'>Create Post</button>
         </form>
 
+        @foreach ($post as $post)
+            <h3>{{$post['title']}} By {{$post->user->name}}</h3>
+            <p>{{$post['body']}}</p>
+            <p><a href="/edit-post/{{$post['id']}}">Edit</a></p>
+            <form action="/delete-post/{{$post['id']}}" method="post">
+            @csrf
+            @method("DELETE")
+            <button>Delete</button>
+            </form>
+        @endforeach
+
         <form id='login-form' action="/logout" method='post'>
           @csrf
           <button type='submit'>Logout</button>
