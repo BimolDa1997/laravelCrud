@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\postController;
+use App\Models\Post_info;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +17,13 @@ use App\Http\Controllers\postController;
 */
 
 Route::get('/', function () {
-    return view('home');
+    $posts = [];
+    if(auth()->check()){
+        $posts = auth()->user()->UserPost()->latest()->get();
+    }
+    
+    //$posts = Post_info::where('user_id',auth()->id())->get();
+    return view('home', ['post' => $posts]);
 });
 Route::post('/register',[UserController::class, 'register']);
 Route::post('/logout',[UserController::class, 'logout']);
@@ -24,3 +31,6 @@ Route::post('/login', [UserController::class, 'login']);
 
 
 Route::post('/new_post',[postController::class, 'CreatePost']);
+Route::get('/edit-post/{post}', [postController::class, 'ShowPost']);
+Route::put('/edit-post/{post}', [postController::class, 'EditPost']);
+Route::delete('/delete-post/{post}', [postController::class, 'DeletePost']);
